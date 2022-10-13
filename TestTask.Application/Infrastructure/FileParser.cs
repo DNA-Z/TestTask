@@ -2,7 +2,7 @@
 using System.Security.Cryptography.X509Certificates;
 using TestTask.Application.Models;
 
-namespace TestTask.Application
+namespace TestTask.Application.Infrastructure
 {
     public class FileParser
     {
@@ -11,17 +11,17 @@ namespace TestTask.Application
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        public LinkedList<ChecksumPath> Parse(string path)
+        public LinkedList<DataFile> Parse(string path)
         {
             char[] delimiterChars = { ' ', ',', '.', ':', ';', '\t', '\n', '\r' };
-            LinkedList<ChecksumPath> checksumPathes = new LinkedList<ChecksumPath>();
-            
+            LinkedList<DataFile> checksumPathes = new LinkedList<DataFile>();
+
             string fileContent = ReadFile(path);
             string[] fileContentParse = fileContent.Split(delimiterChars)
-                .Select(x => x.Replace(" ", "")).Where(x => !string.IsNullOrWhiteSpace(x)).ToArray(); 
+                .Select(x => x.Replace(" ", "")).Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
 
-            for(int i = 0; i < fileContentParse.Length - 1; i += 2)
-                checksumPathes.AddLast(new ChecksumPath(fileContentParse[i], fileContentParse[i + 1]));
+            for (int i = 0; i < fileContentParse.Length - 1; i += 2)
+                checksumPathes.AddLast(new DataFile(fileContentParse[i], fileContentParse[i + 1]));
 
             return checksumPathes;
         }
