@@ -1,42 +1,41 @@
-﻿
-using System.Reflection.PortableExecutable;
+﻿using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using TestTask.Application.Models;
 
 namespace TestTask.Application
 {
     public class FileParser
     {
-
         /// <summary>
-        /// Parses the file and returns a dictionary, where the key is the file path and the value is the checksum
+        /// Parses the file and returns a LinkedList<ChecksumPath>
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        public Dictionary<string, string> Parse(string path)
+        public LinkedList<ChecksumPath> Parse(string path)
         {
-            char[] delimiterChars = { ' ', ',', '.', ':', ';', '\t', '\n' };
+            char[] delimiterChars = { ' ', ',', '.', ':', ';', '\t', '\n', '\r' };
+            LinkedList<ChecksumPath> checksumPathes = new LinkedList<ChecksumPath>();
+            
             string fileContent = ReadFile(path);
-            string[] fileContentParse = fileContent.Split(delimiterChars);
-            var fileChecksums = fileContentParse.Select(s => s.Split(delimiterChars))
-                .ToDictionary(arr => arr[0], arr => arr[1]);
+            string[] fileContentParse = fileContent.Split(delimiterChars)
+                .Select(x => x.Replace(" ", "")).Where(x => !string.IsNullOrWhiteSpace(x)).ToArray(); 
 
-            return fileChecksums;
+            for(int i = 0; i < fileContentParse.Length - 1; i += 2)
+                checksumPathes.AddLast(new ChecksumPath(fileContentParse[i], fileContentParse[i + 1]));
+
+            return checksumPathes;
         }
 
         public string ReadFile(string path)
         {
             string fileContent = string.Empty;
 
-            using(var reader = new StreamReader(path))
+            using (var reader = new StreamReader(path))
             {
-                do
-                {
-                    fileContent = reader.ReadLine();
-                } while (fileContent != null);
+                fileContent = reader.ReadToEnd();
             }
 
             return fileContent;
         }
-
-
     }
 }
