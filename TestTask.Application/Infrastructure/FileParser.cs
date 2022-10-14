@@ -6,11 +6,6 @@ namespace TestTask.Application.Infrastructure
 {
     public class FileParser
     {
-        /// <summary>
-        /// Parses the file and returns a LinkedList<ChecksumPath>
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
         public LinkedList<DataFile> Parse(string path)
         {
             char[] delimiterChars = { ' ', ',', ';', '-', '\'', '\"', '\t', '\n', '\r' };

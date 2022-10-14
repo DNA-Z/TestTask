@@ -25,26 +25,15 @@ namespace TestTask.Application.Algorithm
 
         public uint GetHashCrc32(byte data)
         {
-            //int length = data.Length;
-            //int index = 0;
-            //uint dw = BinaryPrimitives.ReadUInt32LittleEndian(
-            //        data.Slice(index * sizeof(uint), sizeof(uint)));
-
             crc = startInit ^ data;
 
-            //while (true)
-            //{
-                for (int i = 0; i < width; i++)
-                {
-                    if ((crc & 0x80000000) != 0)
-                        crc = (crc << 1) ^ generatorPoly;
-                    else
-                        crc = (crc << 1);
-                }
-
-            //if (length <= sizeof(uint)) return crc;
-            //length -= sizeof(uint);
-            //}
+            for (int i = 0; i < width; i++)
+            {
+                if ((crc & 0x80000000) != 0)
+                    crc = (crc << 1) ^ generatorPoly;
+                else
+                    crc = (crc << 1);
+            }
             return crc;
         }
 

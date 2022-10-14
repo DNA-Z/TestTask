@@ -1,10 +1,10 @@
 ﻿using TestTask.Application.Algorithm;
 using TestTask.Application.Infrastructure;
 
-string path = String.Empty;
+string path = string.Empty;
 
 Console.WriteLine("Здравствуйте\nВведите путь к файлу:");
-Console.WriteLine(path = @"D:\FileData.txt"); //Console.ReadLine();
+Console.ReadLine(); // Console.WriteLine(path = @"D:\FileData.txt"); //Console.ReadLine();
 
 var fileParser = new FileParser();
 var fileDatas = fileParser.Parse(path);
