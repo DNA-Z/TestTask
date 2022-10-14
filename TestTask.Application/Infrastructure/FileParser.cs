@@ -13,7 +13,7 @@ namespace TestTask.Application.Infrastructure
         /// <returns></returns>
         public LinkedList<DataFile> Parse(string path)
         {
-            char[] delimiterChars = { ' ', ',', '.', ':', ';', '\t', '\n', '\r' };
+            char[] delimiterChars = { ' ', ',', ';', '-', '\'', '\"', '\t', '\n', '\r' };
             LinkedList<DataFile> checksumPathes = new LinkedList<DataFile>();
 
             string fileContent = ReadFile(path);

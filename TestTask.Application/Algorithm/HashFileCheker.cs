@@ -9,16 +9,16 @@ namespace TestTask.Application.Algorithm
 {
     internal class HashFileCheker
     {
-        public void CheckFileHash(LinkedList<DataFile> files)
+        public async Task CheckFileHash(LinkedList<DataFile> files)
         {
-            HashFileCalculate checksums = new HashFileCalculate();
-            string hesh = string.Empty;
+            HashCalculate checksums = new HashCalculate();
+            uint hesh = 0;
 
             foreach (DataFile file in files)
             {
-                hesh = checksums.GetFileHash(file.Path);
+                await Task.Run(() => hesh = checksums.GetHash(file.Path));
 
-                if (!hesh.Equals(file.Hash))
+                if (!hesh.Equals(file.Hash.ToLower()))
                     Console.WriteLine($"В файле {file.Path} обранужено несоответствие контрольной суммы");
             }
         }
